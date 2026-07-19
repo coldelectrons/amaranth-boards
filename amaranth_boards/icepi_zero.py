@@ -110,12 +110,6 @@ class IcepiZero1_3Platform(LatticeECP5Platform):
             "27":   "P3"
         })
     ]
-
-    @property
-    def required_tools(self):
-        return super().required_tools + [
-            "openFPGALoader"
-        ]
     
     def toolchain_prepare(self, fragment, name, **kwargs):
         overrides = dict(ecppack_opts="--compress")
@@ -126,6 +120,7 @@ class IcepiZero1_3Platform(LatticeECP5Platform):
         tool = os.environ.get("OPENFPGALOADER", "openFPGALoader")
         with products.extract("{}.bit".format(name)) as bitstream_filename:
             subprocess.check_call([tool, "-b", "icepi-zero", bitstream_filename, "--write-flash"])
+
 
 if __name__ == "__main__":
     from .test.blinky import *
